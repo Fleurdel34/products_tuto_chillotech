@@ -1,6 +1,7 @@
 package tech.chillo.products.service;
 
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import tech.chillo.products.entity.Product;
 import tech.chillo.products.repository.ProductRepository;
@@ -16,7 +17,10 @@ public class ProductService {
 
     private ProductRepository productRepository;
 
-    public Iterable<Product> search(){
+    public Iterable<Product> search(String name){
+        if(Strings.isNotEmpty(name)) {
+            return productRepository.findByNameContainingOrderByPriceDesc(name);
+        }
         return this.productRepository.findAll();
     }
 
